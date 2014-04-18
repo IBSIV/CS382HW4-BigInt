@@ -14,8 +14,8 @@
  * 
  * 
  * It must implement the following operations
- * 		-Addition--method head made--DONE for cases of BOTH positive or BOTH negative
- * 		-Subtraction--method head made
+ * 		-Addition--method head made--DONE for cases of BOTH positive or BOTH negative--ALL COMPLETE
+ * 		-Subtraction--method head made--ALL COMPLETE
  * 		-Multiplication--method head made
  * 		-Division--method head made
  * 
@@ -27,12 +27,9 @@
  * 
  * */
 
-
-
-
-
-
 using System;
+using System.Collections.Generic;
+
 namespace BigNum
 {
 	class MainClass
@@ -45,10 +42,10 @@ namespace BigNum
 			//	x = new int[10000]; 
 			//number=new char[10000];
 			Console.WriteLine ("Please input a number:\n");
-			number=Console.ReadLine ();
-			numberRep First=new numberRep (number);
+			number = Console.ReadLine ();
+			numberRep First = new numberRep (number);
 			Console.WriteLine ("Please input another number:\n");
-			secondNum=Console.ReadLine ();
+			secondNum = Console.ReadLine ();
 			numberRep Second = new numberRep (secondNum);
 			//Console.WriteLine (Second.baseArray.Length+"\n\n");
 
@@ -56,7 +53,7 @@ namespace BigNum
 			//Console.WriteLine (Second.negative);
 
 			//First.printBigNum (Second);
-			numberRep k=First.Subtraction(First, Second);
+			numberRep k=First.Multiplication(First, Second);
 			First.printBigNum (k);
 
 			Console.ReadLine ();
@@ -68,16 +65,21 @@ namespace BigNum
 
 		}
 	}
+
 	public class numberRep
 	{
 		public int [] baseArray{ get; set; }
+
 		public Boolean negative{ get; set; }
-		public numberRep(){
+
+		public numberRep ()
+		{
 		}
 
-		public numberRep(string inputStream){//BEGINNING OF CONSTRUCTOR
+		public numberRep (string inputStream)
+		{//BEGINNING OF CONSTRUCTOR
 			if (inputStream [0] == '-') {
-				Console.WriteLine("got here, it sees negatives");
+				Console.WriteLine ("got here, it sees negatives");
 				negative = true;
 			}
 			baseArray = new int[inputStream.Length];
@@ -112,24 +114,21 @@ namespace BigNum
 			 * 
 			 * */
 			else {
-				baseArray = new int[inputStream.Length-1];
-				for (int i = 0; i < inputStream.Length-1; i++) {
-					baseArray [i] = ((int)inputStream [i+1] - 48);
+				baseArray = new int[inputStream.Length - 1];
+				for (int i = 0; i < inputStream.Length - 1; i++) {
+					baseArray [i] = ((int)inputStream [i + 1] - 48);
 					if (baseArray [i] < 0 || baseArray [i] > 10) {
 						Console.WriteLine ((char)(baseArray [i] + 48) + " is not a number from 0-9, terminating program");
 						break;
 					}
 
 			
+				}
 			}
 		}
-		}//END OF CONSTRUCTOR
-
-
-
-
-	
-		public int compareTo(numberRep first, numberRep second){//BEGINING OF compareTo METHOD
+//END OF CONSTRUCTOR
+		public int compareTo (numberRep first, numberRep second)
+		{//BEGINING OF compareTo METHOD
 
 			/* RETURNS:
 				1- if x is greater than y
@@ -138,15 +137,14 @@ namespace BigNum
 			*/
 			int x = first.baseArray.Length;
 			int y = second.baseArray.Length;
-			if (x > y ) {//just by length we know that x is larger in size y---check for negative
+			if (x > y) {//just by length we know that x is larger in size y---check for negative
 
 				if (first.negative == false) {//X is positive ,it doesn't matter here if y is positive or not, x's length is larger and it is positive
 
-						return 1;
+					return 1;
 
 
-				} 
-				else{//X is NEGATIVE, it doesnt matter if y is negative or not, Y is smaller in size so even if it is negative, it is still larger than X
+				} else {//X is NEGATIVE, it doesnt matter if y is negative or not, Y is smaller in size so even if it is negative, it is still larger than X
 				
 					return -1;
 				
@@ -170,38 +168,36 @@ namespace BigNum
 
 				} 
 			}
-				if(x==y) {//This is the tricky one and must be done carefully. We know in this one that both numbers LENGTHS are the same. Now we much check from right to left if there digits are the same
+			if (x == y) {//This is the tricky one and must be done carefully. We know in this one that both numbers LENGTHS are the same. Now we much check from right to left if there digits are the same
 
 			
-					for (int i = 0; i < first.baseArray.Length; i++) {//go through each array item in both arrays
+				for (int i = 0; i < first.baseArray.Length; i++) {//go through each array item in both arrays
 					if (first.baseArray [i] > second.baseArray [i]) {//first number's i is larger than the second number's i
 
 
 						//###########################
 						//CHECKS SIGN DIFFERENCES
 						//###########################
-						if(first.negative==false){
+						if (first.negative == false) {
 							return 1;
-						}
-							else{
-								return -1;
-							}
-						}
-						if (first.baseArray [i] < second.baseArray [i]) {
-						if(second.negative==false){
+						} else {
 							return -1;
 						}
-						else{
+					}
+					if (first.baseArray [i] < second.baseArray [i]) {
+						if (second.negative == false) {
+							return -1;
+						} else {
 							return 1;
 						}
 							
-						} else {
-
-						}
+					} else {
 
 					}
 
-				if (first.negative == true&& second.negative== true) {
+				}
+
+				if (first.negative == true && second.negative == true) {
 					return 0;
 				}
 				if (first.negative == false && second.negative == true) {
@@ -214,12 +210,12 @@ namespace BigNum
 				}
 					
 			}
-				return 0;//they are all the same.
+			return 0;//they are all the same.
 
-		}//END OF CompareTo METHOD
-
-
-		public Boolean GreaterThan(numberRep x, numberRep y){
+		}
+//END OF CompareTo METHOD
+		public Boolean GreaterThan (numberRep x, numberRep y)
+		{
 			int j = x.compareTo (x, y);
 			if (j == 1) {
 				return true;
@@ -231,9 +227,10 @@ namespace BigNum
 			}
 		
 
-	}
+		}
 
-		public Boolean LessThan(numberRep x, numberRep y){
+		public Boolean LessThan (numberRep x, numberRep y)
+		{
 			int j = x.compareTo (x, y);
 			if (j == 1) {
 				return false;
@@ -246,7 +243,9 @@ namespace BigNum
 
 
 		}
-		public Boolean EqualTo(numberRep x, numberRep y){
+
+		public Boolean EqualTo (numberRep x, numberRep y)
+		{
 			int j = x.compareTo (x, y);
 			if (j == 1) {
 				return false;
@@ -259,7 +258,9 @@ namespace BigNum
 
 
 		}
-		public Boolean LessThanOrEqualTo(numberRep x, numberRep y){
+
+		public Boolean LessThanOrEqualTo (numberRep x, numberRep y)
+		{
 			int j = x.compareTo (x, y);
 			if (j == 1) {
 				return false;
@@ -272,7 +273,9 @@ namespace BigNum
 
 
 		}
-		public Boolean GreaterThanOrEqualTo(numberRep x, numberRep y){
+
+		public Boolean GreaterThanOrEqualTo (numberRep x, numberRep y)
+		{
 			int j = x.compareTo (x, y);
 			if (j == 1) {
 				return true;
@@ -286,13 +289,14 @@ namespace BigNum
 
 		}
 
-		public numberRep Addition(numberRep x, numberRep y){
+		public numberRep Addition (numberRep x, numberRep y)
+		{
 		
 			int xLength = x.baseArray.Length;//get length of x
 			int yLength = y.baseArray.Length;//get length of y
 			numberRep placeHolder = new numberRep ();//make a placeholder numberrep
 			int largest;
-			int carryover=0;
+			int carryover = 0;
 			//finding highest number
 			if (xLength > yLength) {
 				largest = xLength;
@@ -303,11 +307,11 @@ namespace BigNum
 				largest = xLength;
 			}
 			int placeholderlength;
-			placeHolder.baseArray= new int[largest];
+			placeHolder.baseArray = new int[largest];
 			placeholderlength = placeHolder.baseArray.Length;
 			int q;
 			int p;
-			if((x.negative==false&&y.negative==false)||(x.negative==true&&y.negative==true)){
+			if ((x.negative == false && y.negative == false) || (x.negative == true && y.negative == true)) {
 				while (xLength > 0 || yLength > 0) {
 					//Console.WriteLine(x.baseArray [xLength - 1]);
 					//Console.WriteLine(y.baseArray [yLength - 1]);
@@ -316,28 +320,28 @@ namespace BigNum
 					//Console.WriteLine (xLength);
 					//Console.WriteLine (yLength);
 					if (xLength > 0) {
-						 p = x.baseArray [xLength - 1];
+						p = x.baseArray [xLength - 1];
 					} else {
-						 p = 0;
+						p = 0;
 					}
 					if (yLength > 0) {
-						 q = y.baseArray [yLength - 1];
+						q = y.baseArray [yLength - 1];
 					} else {
-						 q = 0;
+						q = 0;
 					}
 					//Console.WriteLine (p + "<----THIS IS P");
 					//Console.WriteLine (q + "<----THIS IS Q");
 
 					//Console.WriteLine (carryover + "<----THIS IS CARRYOVER");
-					int placementInt=(p + q+carryover);
+					int placementInt = (p + q + carryover);
 					//Console.WriteLine (placementInt+"<--- look at this");
 					carryover = 0;
 					if (placementInt > 9) {
 						while (placementInt > 9)
 							placementInt = placementInt - 10;
-						    carryover++;
+						carryover++;
 					}
-					Console.WriteLine ("PLACEMENTINT" + placementInt);
+					//	Console.WriteLine ("PLACEMENTINT" + placementInt);
 					placeHolder.baseArray [placeholderlength - 1] = placementInt;
 					xLength--;
 					yLength--;
@@ -346,10 +350,10 @@ namespace BigNum
 					//catch{
 					//}
 				}
-				if (xLength <= 0 && yLength <= 0 && carryover!=0) {
+				if (xLength <= 0 && yLength <= 0 && carryover != 0) {
 					int[] holder = new int[largest + 1];
 					for (int h = placeHolder.baseArray.Length - 1; h >= 0; h--) {
-						holder [h+1] = placeHolder.baseArray [h];
+						holder [h + 1] = placeHolder.baseArray [h];
 					}
 					holder [0] = carryover;
 					placeHolder.baseArray = holder;
@@ -363,9 +367,9 @@ namespace BigNum
 			
 			}
 
-			if((x.negative==false &&y.negative==true)){
+			if ((x.negative == false && y.negative == true)) {
 				y.negative = false;
-				placeHolder=Subtraction (x, y);
+				placeHolder = Subtraction (x, y);
 			}
 			if (x.negative == true && y.negative == false) {
 				x.negative = true;
@@ -378,14 +382,15 @@ namespace BigNum
 		
 		
 		}
-		public void printBigNum(numberRep x){
+
+		public void printBigNum (numberRep x)
+		{
 			if (x.negative == false) {
 				for (int u = 0; u < x.baseArray.Length; u++) {
 					Console.Write (x.baseArray [u]);
 				}
 
-			}
-			else{
+			} else {
 				Console.Write ("-");
 				for (int u = 0; u < x.baseArray.Length; u++) {
 					Console.Write (x.baseArray [u]);
@@ -396,7 +401,8 @@ namespace BigNum
 
 		}
 
-		public numberRep  Subtraction(numberRep x, numberRep y){
+		public numberRep  Subtraction (numberRep x, numberRep y)
+		{
 			int xLength = x.baseArray.Length;//get length of x
 			int yLength = y.baseArray.Length;//get length of y
 			numberRep placeHolder = new numberRep ();//make a placeholder numberrep
@@ -412,12 +418,12 @@ namespace BigNum
 				largest = xLength;
 			}
 			int placeholderlength;
-			placeHolder.baseArray= new int[largest];
+			placeHolder.baseArray = new int[largest];
 			placeholderlength = placeHolder.baseArray.Length;
 
 			if (x.negative == false && y.negative == true) {
 				y.negative = false;
-				return placeHolder=Addition (x, y);
+				return placeHolder = Addition (x, y);
 
 
 			}
@@ -428,7 +434,7 @@ namespace BigNum
 			if (x.negative == false && y.negative == false) {
 				if (placeHolder.compareTo (x, y) == -1) {
 
-					placeHolder=Subtraction (y, x);
+					placeHolder = Subtraction (y, x);
 					placeHolder.negative = true;
 					return  placeHolder;
 				}
@@ -437,13 +443,13 @@ namespace BigNum
 				} else {//compareTo would return 1 i.e. the first number is bigger.
 					while (xLength > 0 || yLength > 0) {
 						if (xLength > 0 && yLength > 0) {
-							if ((x.baseArray[xLength - 1] - y.baseArray [yLength-1]) > 0) {
-								 placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength-1]);
+							if ((x.baseArray [xLength - 1] - y.baseArray [yLength - 1]) > 0) {
+								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength - 1]);
 							}
-							if ((x.baseArray [xLength - 1] - y.baseArray [yLength-1]) < 0) {
+							if ((x.baseArray [xLength - 1] - y.baseArray [yLength - 1]) < 0) {
 								x.baseArray [xLength - 2] = (x.baseArray [xLength - 2]) - 1;
 								x.baseArray [xLength - 1] = (x.baseArray [xLength - 1]) + 10;
-								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength-1]);
+								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength - 1]);
 							}
 				
 						} else {
@@ -460,7 +466,7 @@ namespace BigNum
 			if (x.negative == true && y.negative == true) {
 				y.negative = false;
 				x.negative = false;
-				placeHolder=Subtraction (x, y);
+				placeHolder = Subtraction (x, y);
 				if (x.compareTo (x, y) == 1) {
 					placeHolder.negative = true;
 				} else {
@@ -473,7 +479,7 @@ namespace BigNum
 
 
 
-				//printBigNum (placeHolder);
+			//printBigNum (placeHolder);
 
 
 
@@ -485,17 +491,67 @@ namespace BigNum
 
 
 		}
-		public /*numberRep*/ void Multiplication(numberRep x, numberRep y){
+
+		public numberRep Multiplication (numberRep x, numberRep y)
+		{
+			int[] u = new int[1];
+			int[] v = new int[1];
+			int[] w = new int[1];
+
+			numberRep storage = new numberRep ();
+			storage.baseArray = w;
+			storage.baseArray [0] = 0;
+			numberRep counter = new numberRep ();//for counting number of repetitions
+			counter.baseArray =u;
+			counter.baseArray [0] = 0;
+			numberRep increment = new numberRep ();//for incrementing number of repetitions
+			increment.baseArray=v;
+			increment.baseArray [0] = 1;
+
+			if (x.negative == false && y.negative == false) {//both numbers are positive
+				while (compareTo (counter, y) != 0) {
+					storage = Addition (storage, x);
+					counter = Addition (counter, increment);
+				}
+
+			}
+			if (x.negative == true && y.negative == true) {//both numbers are negative
+				x.negative = false;
+				y.negative = false;
+				while (compareTo (counter, y) != 0) {
+					storage = Addition (storage, x);
+					counter = Addition (counter, increment);
+				}
+
+			}
+			if (x.negative == true && y.negative == false) {//first number is negative && second number is positive
+				x.negative = false;
+
+				while (compareTo (counter, y) != 0) {
+					storage = Addition (storage, x);
+					counter = Addition (counter, increment);
+				}
+				storage.negative = true;
+			}
+			if (x.negative == false && y.negative == true) {//first number is positive && second number is negative
+				y.negative = false;
+
+				while (compareTo (counter, y) != 0) {
+					storage = Addition (storage, x);
+					counter = Addition (counter, increment);
+				}
+				storage.negative = true;
+			}
+
+			return storage;
+		}
+
+		public /*numberRep*/ void Division (numberRep x, numberRep y)
+		{
 
 
 
 
 		}
-		public /*numberRep*/ void Division(numberRep x, numberRep y){
-
-
-
-
-		}
-}
+	}
 }
