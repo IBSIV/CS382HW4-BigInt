@@ -53,9 +53,93 @@ namespace BigNum
 			//Console.WriteLine (Second.negative);
 
 			//First.printBigNum (Second);
-			numberRep ReturnRep=First.Multiplication(First, Second);
-			First.printBigNum (ReturnRep);
-			First.GetRidOfZeros (ReturnRep);
+			numberRep ReturnRep = new numberRep ();
+			First.printBigNum (First);
+			Console.Write (" + ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Addition(First,Second)));
+			Console.Write ("\n");
+
+
+
+			 
+			First.printBigNum (First);
+			Console.Write (" - ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Subtraction(First,Second)));
+			Console.Write ("\n");
+
+
+
+			First.printBigNum (First);
+			Console.Write (" * ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Multiplication(First,Second)));
+			Console.Write ("\n");
+
+
+
+			First.printBigNum (First);
+			Console.Write (" / ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Multiplication(First,Second)));
+			Console.Write ("\n");
+
+
+
+			First.printBigNum (First);
+			Console.Write (" > ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			Boolean x=First.GreaterThan (First, Second);
+			Console.Write (x);
+			Console.Write ("\n");
+
+
+			First.printBigNum (First);
+			Console.Write (" < ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			x=First.LessThan (First, Second);
+			Console.Write (x);
+			Console.Write ("\n");
+
+
+
+			First.printBigNum (First);
+			Console.Write (" >= ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			x=First.GreaterThanOrEqualTo (First, Second);
+			Console.Write (x);
+			Console.Write ("\n");
+
+
+
+		
+
+
+			First.printBigNum (First);
+			Console.Write (" <= ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			x=First.LessThanOrEqualTo (First, Second);
+			Console.Write (x);
+			Console.Write ("\n");
+
+
+			First.printBigNum (First);
+			Console.Write (" == ");
+			First.printBigNum (Second);
+			Console.Write (" = ");
+			x=First.EqualTo (First, Second);
+			Console.Write (x);
+			Console.Write ("\n");
+
 			//Console.WriteLine (k.negative);
 
 			Console.ReadLine ();
@@ -375,11 +459,11 @@ namespace BigNum
 			
 			}
 
-			if ((firstNumberRepToAdd.isNegative == false && SecondNumberRepToAdd.isNegative == true)) {
+			if ((firstNumberRepToAdd.isNegative == false && SecondNumberRepToAdd.isNegative == true)) {//these cases are better handled by subtraction(first number positive, second number negative)
 				SecondNumberRepToAdd.isNegative = false;
 				placeHolder = Subtraction (firstNumberRepToAdd, SecondNumberRepToAdd);
 			}
-			if (firstNumberRepToAdd.isNegative == true && SecondNumberRepToAdd.isNegative == false) {
+			if (firstNumberRepToAdd.isNegative == true && SecondNumberRepToAdd.isNegative == false) {//these casesare better handled by subtraction(first number negative, second number positive
 				firstNumberRepToAdd.isNegative = true;
 				placeHolder = Subtraction (SecondNumberRepToAdd, firstNumberRepToAdd);
 			}
@@ -391,17 +475,17 @@ namespace BigNum
 		
 		}
 
-		public void printBigNum (numberRep x)//simply travels through the array, element by element printing the whole array
+		public void printBigNum (numberRep VarNumberRep)//simply travels through the array, element by element printing the whole array
 		{
-			if (x.isNegative == false) {
-				for (int u = 0; u < x.baseArray.Length; u++) {
-					Console.Write (x.baseArray [u]);
+			if (VarNumberRep.isNegative == false) {
+				for (int u = 0; u < VarNumberRep.baseArray.Length; u++) {
+					Console.Write (VarNumberRep.baseArray [u]);
 				}
 
 			} else {
 				Console.Write ("-");
-				for (int u = 0; u < x.baseArray.Length; u++) {
-					Console.Write (x.baseArray [u]);
+				for (int u = 0; u < VarNumberRep.baseArray.Length; u++) {
+					Console.Write (VarNumberRep.baseArray [u]);
 				}
 			}
 
@@ -409,75 +493,82 @@ namespace BigNum
 
 		}
 
-		public numberRep  Subtraction (numberRep x, numberRep y)
+		public numberRep  Subtraction (numberRep FirstNumberToSubtract, numberRep SecondNumberToSubtract)
 		{
-			int xLength = x.baseArray.Length;//get length of x
-			int yLength = y.baseArray.Length;//get length of y
+			int FirstLength = FirstNumberToSubtract.baseArray.Length;//get length of x
+			int SecondLength = SecondNumberToSubtract.baseArray.Length;//get length of y
 			numberRep placeHolder = new numberRep ();//make a placeholder numberrep
 			int largest;
 			//int carryover=0;
 			//finding highest number
-			if (xLength > yLength) {
-				largest = xLength;
+			if (FirstLength > SecondLength) {
+				largest = FirstLength;
 			}
-			if (xLength < yLength) {
-				largest = yLength;
+			if (FirstLength < SecondLength) {
+				largest = SecondLength;
 			} else {
-				largest = xLength;
+				largest = FirstLength;
 			}
 			int placeholderlength;
 			placeHolder.baseArray = new int[largest];
 			placeholderlength = placeHolder.baseArray.Length;
 
-			if (x.isNegative == false && y.isNegative == true) {
-				y.isNegative = false;
-				return placeHolder = Addition (x, y);
+			//This process goes through all the possible combinations of positive and negative numbers and has a solution for all of them
+
+			if (FirstNumberToSubtract.isNegative == false && SecondNumberToSubtract.isNegative == true) {//first number positive, second number negative, change sign of second number and add them
+				SecondNumberToSubtract.isNegative = false;
+				return placeHolder = Addition (FirstNumberToSubtract, SecondNumberToSubtract);
 
 
 			}
-			if (x.isNegative == true && y.isNegative == false) {
-				y.isNegative = true;
-				return placeHolder = Addition (x, y);
+			if (FirstNumberToSubtract.isNegative == true && SecondNumberToSubtract.isNegative == false) {//first number negative, second number positive, change sign of second one and add them
+				SecondNumberToSubtract.isNegative = true;
+				return placeHolder = Addition (FirstNumberToSubtract, SecondNumberToSubtract);
 			}
-			if (x.isNegative == false && y.isNegative == false) {
-				if (placeHolder.compareTo (x, y) == -1) {
+			if (FirstNumberToSubtract.isNegative == false && SecondNumberToSubtract.isNegative == false) {//both positive, this a bit tricky
+				if (placeHolder.compareTo (FirstNumberToSubtract, SecondNumberToSubtract) == -1) {//first is smaller than second
 
-					placeHolder = Subtraction (y, x);
+					placeHolder = Subtraction (SecondNumberToSubtract, FirstNumberToSubtract);//take difference of second and first and make the result negative
 					placeHolder.isNegative = true;
 					return  placeHolder;
 				}
-				if (placeHolder.compareTo (x, y) == 0) {
+				if (placeHolder.compareTo (FirstNumberToSubtract, SecondNumberToSubtract) == 0) {//the two numbers are equal, placeholder is initalized to zero so just return placeholder
 					return placeHolder;
 				} else {//compareTo would return 1 i.e. the first number is bigger.
-					while (xLength > 0 || yLength > 0) {
-						if (xLength > 0 && yLength > 0) {
-							if ((x.baseArray [xLength - 1] - y.baseArray [yLength - 1]) > 0) {
-								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength - 1]);
+					while (FirstLength > 0 || SecondLength > 0) {//atleast one of the numbers still hasnt gone through all its rows.
+						if (FirstLength > 0 && SecondLength > 0) {//both have not gone through there rows
+
+
+							//this part essentially does basic subtraction and if it can't be done does the rule of taking 1 off of the number to the left and adding 10 to the number to the right
+							if ((FirstNumberToSubtract.baseArray [FirstLength - 1] - SecondNumberToSubtract.baseArray [SecondLength - 1]) > 0) {
+								placeHolder.baseArray [placeholderlength - 1] = (FirstNumberToSubtract.baseArray [FirstLength - 1] - SecondNumberToSubtract.baseArray [SecondLength - 1]);
 							}
-							if ((x.baseArray [xLength - 1] - y.baseArray [yLength - 1]) < 0) {
-								x.baseArray [xLength - 2] = (x.baseArray [xLength - 2]) - 1;
-								x.baseArray [xLength - 1] = (x.baseArray [xLength - 1]) + 10;
-								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength - 1]);
+							if ((FirstNumberToSubtract.baseArray [FirstLength - 1] - SecondNumberToSubtract.baseArray [SecondLength - 1]) < 0) {
+								FirstNumberToSubtract.baseArray [FirstLength - 2] = (FirstNumberToSubtract.baseArray [FirstLength - 2]) - 1;
+								FirstNumberToSubtract.baseArray [FirstLength - 1] = (FirstNumberToSubtract.baseArray [FirstLength - 1]) + 10;
+								placeHolder.baseArray [placeholderlength - 1] = (FirstNumberToSubtract.baseArray [FirstLength - 1] - SecondNumberToSubtract.baseArray [SecondLength - 1]);
 							}
 				
 						} else {
-							placeHolder.baseArray [placeholderlength - 1] = x.baseArray [xLength - 1];
+							placeHolder.baseArray [placeholderlength - 1] = FirstNumberToSubtract.baseArray [FirstLength - 1];//since there is nothing left in the second number, the first number's rows are just brought down
 						}
-						xLength--;
-						yLength--;
+						//decrementation
+						FirstLength--;
+						SecondLength--;
 						placeholderlength--;
 					}
 
 				}
 			
 			}
-			if (x.isNegative == true && y.isNegative == true) {
-				y.isNegative = false;
-				x.isNegative = false;
-				placeHolder = Subtraction (x, y);
-				if (x.compareTo (x, y) == 1) {
+			if (FirstNumberToSubtract.isNegative == true && SecondNumberToSubtract.isNegative == true) {//since both signs are the same, they behave just like the positive numbers do except that the answer is opposite
+				SecondNumberToSubtract.isNegative = false;
+				FirstNumberToSubtract.isNegative = false;
+				placeHolder = Subtraction (FirstNumberToSubtract, SecondNumberToSubtract);//it just takes the positive versions of the numbers and runs them through subtraction again
+
+				if (FirstNumberToSubtract.compareTo (FirstNumberToSubtract, SecondNumberToSubtract) == 1) {//the end result is negative
 					placeHolder.isNegative = true;
-				} else {
+				} else {//the end result is positive
 					placeHolder.isNegative = false;
 				}
 				return placeHolder;
@@ -500,23 +591,24 @@ namespace BigNum
 
 		}
 
-		public numberRep Multiplication (numberRep x, numberRep y)
+		public numberRep Multiplication (numberRep FirstNumberToBeMulti, numberRep SecondNumberToBeMulti)//completes multiplcation the way a normal person would do
 		{
-			int p = x.baseArray.Length * y.baseArray.Length;//This variable is the total of the lengths of x and y arrays
+			int p = FirstNumberToBeMulti.baseArray.Length * SecondNumberToBeMulti.baseArray.Length;//This variable is the total of the lengths of x and y arrays
 			//makes an array of p's length
-			List<int[]> listOfStuff = new List<int[]> ();// this will be a list of int []'s
-			int xLength = x.baseArray.Length;
+			List<int[]> listOfNumbersToBeAddedTogether = new List<int[]> ();// this will be a list of int []'s
+			int xLength = FirstNumberToBeMulti.baseArray.Length;
 			int overflow = 0;
-			int yLength = y.baseArray.Length;
+			int yLength = SecondNumberToBeMulti.baseArray.Length;
 			int incrementzeros = 0;
 			for (int u = yLength - 1; u >= 0; u--) {
-				int[] k = new int[p];
+				int[] k = new int[p];//creates an array to hold the values to be added later
 
 				for (int v = xLength - 1; v >= 0; v--) {
 					//Console.WriteLine (u+" x value");
 					//Console.WriteLine (v+" y value");
 
-					int j = x.baseArray [v] * y.baseArray [u]+overflow;
+					int j = FirstNumberToBeMulti.baseArray [v] * SecondNumberToBeMulti.baseArray [u]+overflow;//the number in row 'v' of number 1, and the number in row 'u' of number 2, multiplied, 
+					//and add overflow from previous row if needed(overflow is initalized to zero)
 					overflow = 0;
 					if (j > 9) {
 						while (j > 9) {
@@ -525,33 +617,36 @@ namespace BigNum
 						}
 					}
 
-					k [p - 1-incrementzeros] = j;
+					k [p - 1-incrementzeros] = j;//this does the trip of keeping up with zeros that should be to the right of the number.
 					p--;
 				}
 
-				listOfStuff.Add (k);
-				p = x.baseArray.Length * y.baseArray.Length;
+				listOfNumbersToBeAddedTogether.Add (k);
+				p = FirstNumberToBeMulti.baseArray.Length * SecondNumberToBeMulti.baseArray.Length;
 				incrementzeros++;
 
 
 
 
 			}
-			numberRep FPlaceholder = new numberRep ();
-			FPlaceholder.baseArray = listOfStuff [0];
-			numberRep SPlaceholder = new numberRep ();
-			for (int i = 1; i < listOfStuff.Count; i++) {
-				SPlaceholder.baseArray = listOfStuff [i];
-				FPlaceholder = Addition (FPlaceholder, SPlaceholder);
+			numberRep FPlaceholder = new numberRep ();//first number to be added together to get the product
+			FPlaceholder.baseArray = listOfNumbersToBeAddedTogether [0];//it is the first number in the list
+			numberRep SPlaceholder = new numberRep ();//this number changes as the for loop continues, but it goes through all the numbers in the list
+			for (int i = 1; i < listOfNumbersToBeAddedTogether.Count; i++) {//
+				SPlaceholder.baseArray = listOfNumbersToBeAddedTogether [i];
+				FPlaceholder = Addition (FPlaceholder, SPlaceholder);//the first number is equal to itself, plus the next number in line, and the next number, and the next number... so on and so worth
 
 			}
-			if((x.isNegative==true&&y.isNegative==false)||(x.isNegative==false && y.isNegative==true)){
+			if((FirstNumberToBeMulti.isNegative==true&&SecondNumberToBeMulti.isNegative==false)||(FirstNumberToBeMulti.isNegative==false && SecondNumberToBeMulti.isNegative==true)){
+				//these are the conditions that would need to be present to make the product negative
 				FPlaceholder.isNegative = true;
 			}
-			GetRidOfZeros (FPlaceholder);
+			//otherwise it is positive
+			GetRidOfZeros (FPlaceholder);//the way space was allocated for the product, it left a huge amount of zeros to the left of the number, this method gets rid of those zeros
 				return FPlaceholder;
 
 
+			//THIS IS THE OLD METHOD I USED THAT STRICTLY USED ADDITION
 			/*	int[] u = new int[1];
 			int[] v = new int[1];
 			int[] w = new int[1];
@@ -605,46 +700,15 @@ namespace BigNum
 			return storage;*/
 		}
 
-		public numberRep Division (numberRep x, numberRep y)
+		/*	public numberRep Division (numberRep x, numberRep y)
 		{
 
-			int[] u = new int[1];
-			int[] v = new int[1];
-			int[] w = new int[1];
-
-			numberRep storage = new numberRep ();//in this method storage is actually used to  keep track of if X ever falls below 0
-			storage.baseArray = w;
-			storage.baseArray [0] = 0;
-			storage.isNegative = false;
-			numberRep counter = new numberRep ();//for counting number of repetitions
-			counter.baseArray =u;
-			counter.baseArray [0] = 0;
-			numberRep increment = new numberRep ();//for incrementing number of repetitions
-			increment.baseArray=v;
-			increment.baseArray [0] = 1;
-			while (compareTo (x, storage) != -1&& compareTo(x,storage)!=0) {//x is larger than 0
-
-				if (x.isNegative == false && y.isNegative == false) {
-					x=Subtraction (x, y);
-					//if (compareTo (x, storage) == -1) {
-
-					//}
-					printBigNum (x);
-					printBigNum (storage);
-					//x.negative = true;
-					Console.WriteLine (x.isNegative+"this is negative\n");
-					counter = Addition (counter, increment);
-					Console.WriteLine(compareTo(x,storage));
-				}
-			}
-			return counter;
+	
 
 
-
-
-		}
+		}*/
 		public numberRep GetRidOfZeros(numberRep x){
-			while(x.baseArray[0]==0){
+			while(x.baseArray[0]==0&&x.baseArray.Length>1){
 				int[] p = new int[x.baseArray.Length-1];
 				for (int k = 0; k < p.Length; k++) {
 					p [k] = x.baseArray [k + 1];
