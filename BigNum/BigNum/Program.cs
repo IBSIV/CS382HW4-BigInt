@@ -16,7 +16,7 @@
  * It must implement the following operations
  * 		-Addition--method head made--DONE for cases of BOTH positive or BOTH negative--ALL COMPLETE
  * 		-Subtraction--method head made--ALL COMPLETE
- * 		-Multiplication--method head made
+ * 		-Multiplication--method head made--ALL COMPLETE
  * 		-Division--method head made
  * 
  * 
@@ -55,6 +55,8 @@ namespace BigNum
 			//First.printBigNum (Second);
 			numberRep k=First.Multiplication(First, Second);
 			First.printBigNum (k);
+			First.GetRidOfZeros (k);
+			//Console.WriteLine (k.negative);
 
 			Console.ReadLine ();
 
@@ -494,7 +496,57 @@ namespace BigNum
 
 		public numberRep Multiplication (numberRep x, numberRep y)
 		{
-			int[] u = new int[1];
+			int p = x.baseArray.Length * y.baseArray.Length;//This variable is the total of the lengths of x and y arrays
+			//makes an array of p's length
+			List<int[]> listOfStuff = new List<int[]> ();// this will be a list of int []'s
+			int xLength = x.baseArray.Length;
+			int overflow = 0;
+			int yLength = y.baseArray.Length;
+			int incrementzeros = 0;
+			for (int u = yLength - 1; u >= 0; u--) {
+				int[] k = new int[p];
+
+				for (int v = xLength - 1; v >= 0; v--) {
+					//Console.WriteLine (u+" x value");
+					//Console.WriteLine (v+" y value");
+
+					int j = x.baseArray [v] * y.baseArray [u]+overflow;
+					overflow = 0;
+					if (j > 9) {
+						while (j > 9) {
+							j = j - 10;
+							overflow++;
+						}
+					}
+
+					k [p - 1-incrementzeros] = j;
+					p--;
+				}
+
+				listOfStuff.Add (k);
+				p = x.baseArray.Length * y.baseArray.Length;
+				incrementzeros++;
+
+
+
+
+			}
+			numberRep FPlaceholder = new numberRep ();
+			FPlaceholder.baseArray = listOfStuff [0];
+			numberRep SPlaceholder = new numberRep ();
+			for (int i = 1; i < listOfStuff.Count; i++) {
+				SPlaceholder.baseArray = listOfStuff [i];
+				FPlaceholder = Addition (FPlaceholder, SPlaceholder);
+
+			}
+			if((x.negative==true&&y.negative==false)||(x.negative==false && y.negative==true)){
+				FPlaceholder.negative = true;
+			}
+			GetRidOfZeros (FPlaceholder);
+				return FPlaceholder;
+
+
+			/*	int[] u = new int[1];
 			int[] v = new int[1];
 			int[] w = new int[1];
 
@@ -507,6 +559,7 @@ namespace BigNum
 			numberRep increment = new numberRep ();//for incrementing number of repetitions
 			increment.baseArray=v;
 			increment.baseArray [0] = 1;
+
 
 			if (x.negative == false && y.negative == false) {//both numbers are positive
 				while (compareTo (counter, y) != 0) {
@@ -543,15 +596,57 @@ namespace BigNum
 				storage.negative = true;
 			}
 
-			return storage;
+			return storage;*/
 		}
 
-		public /*numberRep*/ void Division (numberRep x, numberRep y)
+		public numberRep Division (numberRep x, numberRep y)
 		{
 
+			int[] u = new int[1];
+			int[] v = new int[1];
+			int[] w = new int[1];
+
+			numberRep storage = new numberRep ();//in this method storage is actually used to  keep track of if X ever falls below 0
+			storage.baseArray = w;
+			storage.baseArray [0] = 0;
+			storage.negative = false;
+			numberRep counter = new numberRep ();//for counting number of repetitions
+			counter.baseArray =u;
+			counter.baseArray [0] = 0;
+			numberRep increment = new numberRep ();//for incrementing number of repetitions
+			increment.baseArray=v;
+			increment.baseArray [0] = 1;
+			while (compareTo (x, storage) != -1&& compareTo(x,storage)!=0) {//x is larger than 0
+
+				if (x.negative == false && y.negative == false) {
+					x=Subtraction (x, y);
+					//if (compareTo (x, storage) == -1) {
+
+					//}
+					printBigNum (x);
+					printBigNum (storage);
+					//x.negative = true;
+					Console.WriteLine (x.negative+"this is negative\n");
+					counter = Addition (counter, increment);
+					Console.WriteLine(compareTo(x,storage));
+				}
+			}
+			return counter;
+
 
 
 
 		}
+		public numberRep GetRidOfZeros(numberRep x){
+			while(x.baseArray[0]==0){
+				int[] p = new int[x.baseArray.Length-1];
+				for (int k = 0; k < p.Length; k++) {
+					p [k] = x.baseArray [k + 1];
+				}
+				x.baseArray = p;
+
+		}
+			return x;
 	}
+}
 }
