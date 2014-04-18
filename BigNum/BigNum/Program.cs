@@ -3,16 +3,21 @@
  * This project but use an array to store numbers. This is the simpliest way to do it.
  * There must be a boolean value that allows for negative numbers.
  * There must be a way to compare to the two numbers in the following ways:
- * 		-Greater than
- * 		-Greater than or equal to
- * 		-Less than
- * 		-Less than or equal to
- * 		-Equal
+ * 
+ * 
+ * 		-Greater than--complete
+ * 		-Greater than or equal to--complete
+ * 		-Less than--complete
+ * 		-Less than or equal to--complete
+ * 		-Equal--complete
+ * 
+ * 
+ * 
  * It must implement the following operations
- * 		-Addition
- * 		-Subtraction
- * 		-Multiplication
- * 		-Division
+ * 		-Addition--method head made--DONE for cases of BOTH positive or BOTH negative
+ * 		-Subtraction--method head made
+ * 		-Multiplication--method head made
+ * 		-Division--method head made
  * 
  * 
  * 
@@ -51,7 +56,8 @@ namespace BigNum
 			//Console.WriteLine (Second.negative);
 
 			//First.printBigNum (Second);
-			First.Addition (First, Second);
+			numberRep k=First.Subtraction(First, Second);
+			First.printBigNum (k);
 
 			Console.ReadLine ();
 
@@ -280,13 +286,14 @@ namespace BigNum
 
 		}
 
-		public /*numberRep*/ void Addition(numberRep x, numberRep y){
+		public numberRep Addition(numberRep x, numberRep y){
 		
-			int xLength = x.baseArray.Length;
-			int yLength = y.baseArray.Length;
-			numberRep placeHolder = new numberRep ();
+			int xLength = x.baseArray.Length;//get length of x
+			int yLength = y.baseArray.Length;//get length of y
+			numberRep placeHolder = new numberRep ();//make a placeholder numberrep
 			int largest;
 			int carryover=0;
+			//finding highest number
 			if (xLength > yLength) {
 				largest = xLength;
 			}
@@ -302,9 +309,12 @@ namespace BigNum
 			int p;
 			if((x.negative==false&&y.negative==false)||(x.negative==true&&y.negative==true)){
 				while (xLength > 0 || yLength > 0) {
+					//Console.WriteLine(x.baseArray [xLength - 1]);
+					//Console.WriteLine(y.baseArray [yLength - 1]);
+					//Console.WriteLine (y.negative);
 					//try{
-					Console.WriteLine (xLength);
-					Console.WriteLine (yLength);
+					//Console.WriteLine (xLength);
+					//Console.WriteLine (yLength);
 					if (xLength > 0) {
 						 p = x.baseArray [xLength - 1];
 					} else {
@@ -315,19 +325,19 @@ namespace BigNum
 					} else {
 						 q = 0;
 					}
-					Console.WriteLine (p + "<----THIS IS P");
-					Console.WriteLine (q + "<----THIS IS Q");
+					//Console.WriteLine (p + "<----THIS IS P");
+					//Console.WriteLine (q + "<----THIS IS Q");
 
-					Console.WriteLine (carryover + "<----THIS IS CARRYOVER");
+					//Console.WriteLine (carryover + "<----THIS IS CARRYOVER");
 					int placementInt=(p + q+carryover);
-					Console.WriteLine (placementInt+"<--- look at this");
+					//Console.WriteLine (placementInt+"<--- look at this");
 					carryover = 0;
 					if (placementInt > 9) {
 						while (placementInt > 9)
 							placementInt = placementInt - 10;
 						    carryover++;
 					}
-					
+					Console.WriteLine ("PLACEMENTINT" + placementInt);
 					placeHolder.baseArray [placeholderlength - 1] = placementInt;
 					xLength--;
 					yLength--;
@@ -336,13 +346,33 @@ namespace BigNum
 					//catch{
 					//}
 				}
+				if (xLength <= 0 && yLength <= 0 && carryover!=0) {
+					int[] holder = new int[largest + 1];
+					for (int h = placeHolder.baseArray.Length - 1; h >= 0; h--) {
+						holder [h+1] = placeHolder.baseArray [h];
+					}
+					holder [0] = carryover;
+					placeHolder.baseArray = holder;
+				}
+
 				if (x.negative == true && y.negative == true) {
 					placeHolder.negative = true;
 				}
-				printBigNum (placeHolder);
+
+				//printBigNum (placeHolder);
 			
 			}
 
+			if((x.negative==false &&y.negative==true)){
+				y.negative = false;
+				placeHolder=Subtraction (x, y);
+			}
+			if (x.negative == true && y.negative == false) {
+				x.negative = true;
+				placeHolder = Subtraction (y, x);
+			}
+
+			return placeHolder;
 
 
 		
@@ -366,7 +396,90 @@ namespace BigNum
 
 		}
 
-		public /*numberRep*/ void Subtraction(numberRep x, numberRep y){
+		public numberRep  Subtraction(numberRep x, numberRep y){
+			int xLength = x.baseArray.Length;//get length of x
+			int yLength = y.baseArray.Length;//get length of y
+			numberRep placeHolder = new numberRep ();//make a placeholder numberrep
+			int largest;
+			//int carryover=0;
+			//finding highest number
+			if (xLength > yLength) {
+				largest = xLength;
+			}
+			if (xLength < yLength) {
+				largest = yLength;
+			} else {
+				largest = xLength;
+			}
+			int placeholderlength;
+			placeHolder.baseArray= new int[largest];
+			placeholderlength = placeHolder.baseArray.Length;
+
+			if (x.negative == false && y.negative == true) {
+				y.negative = false;
+				return placeHolder=Addition (x, y);
+
+
+			}
+			if (x.negative == true && y.negative == false) {
+				y.negative = true;
+				return placeHolder = Addition (x, y);
+			}
+			if (x.negative == false && y.negative == false) {
+				if (placeHolder.compareTo (x, y) == -1) {
+
+					placeHolder=Subtraction (y, x);
+					placeHolder.negative = true;
+					return  placeHolder;
+				}
+				if (placeHolder.compareTo (x, y) == 0) {
+					return placeHolder;
+				} else {//compareTo would return 1 i.e. the first number is bigger.
+					while (xLength > 0 || yLength > 0) {
+						if (xLength > 0 && yLength > 0) {
+							if ((x.baseArray[xLength - 1] - y.baseArray [yLength-1]) > 0) {
+								 placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength-1]);
+							}
+							if ((x.baseArray [xLength - 1] - y.baseArray [yLength-1]) < 0) {
+								x.baseArray [xLength - 2] = (x.baseArray [xLength - 2]) - 1;
+								x.baseArray [xLength - 1] = (x.baseArray [xLength - 1]) + 10;
+								placeHolder.baseArray [placeholderlength - 1] = (x.baseArray [xLength - 1] - y.baseArray [yLength-1]);
+							}
+				
+						} else {
+							placeHolder.baseArray [placeholderlength - 1] = x.baseArray [xLength - 1];
+						}
+						xLength--;
+						yLength--;
+						placeholderlength--;
+					}
+
+				}
+			
+			}
+			if (x.negative == true && y.negative == true) {
+				y.negative = false;
+				x.negative = false;
+				placeHolder=Subtraction (x, y);
+				if (x.compareTo (x, y) == 1) {
+					placeHolder.negative = true;
+				} else {
+					placeHolder.negative = false;
+				}
+				return placeHolder;
+
+			}
+
+
+
+
+				//printBigNum (placeHolder);
+
+
+
+		
+
+			return placeHolder;
 
 
 
