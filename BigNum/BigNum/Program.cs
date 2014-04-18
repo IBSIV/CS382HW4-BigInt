@@ -47,74 +47,102 @@ namespace BigNum
 			Console.WriteLine ("Please input another number:\n");
 			secondNum = Console.ReadLine ();
 			numberRep Second = new numberRep (secondNum);
+
+
+
+			numberRep FirstAdd =new numberRep(number);
+			numberRep FirstSub = new numberRep(number);
+			numberRep FirstMulti = new numberRep(number);
+			numberRep FirstDiv = new numberRep(number);
+			numberRep FirstGreater = new numberRep(number);
+			numberRep FirstLesser = new numberRep(number);
+			numberRep FirstGreaterE = new numberRep(number);
+			numberRep FirstLesserE = new numberRep(number);
+			numberRep FirstE = new numberRep(number);
+
+
+			numberRep SecondAdd = new numberRep (secondNum);
+			numberRep SecondSub = new numberRep (secondNum);
+			numberRep SecondMulti = new numberRep (secondNum);
+			numberRep SecondDiv = new numberRep (secondNum);
+			numberRep SecondGreater = new numberRep (secondNum);
+			numberRep SecondLesser = new numberRep (secondNum);
+			numberRep SecondGreaterE = new numberRep (secondNum);
+			numberRep SecondLesserE = new numberRep (secondNum);
+			numberRep SecondE = new numberRep (secondNum);
+
 			//Console.WriteLine (Second.baseArray.Length+"\n\n");
+		
 
 
 			//Console.WriteLine (Second.negative);
 
 			//First.printBigNum (Second);
+
+
+			//ADDITION
 			numberRep ReturnRep = new numberRep ();
 			First.printBigNum (First);
 			Console.Write (" + ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Addition(First,Second)));
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Addition(FirstAdd,SecondAdd)));
 			Console.Write ("\n");
 
 
 
-			 
+			//SUBTRACTION
 			First.printBigNum (First);
 			Console.Write (" - ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Subtraction(First,Second)));
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Subtraction(FirstSub,SecondSub)));
 			Console.Write ("\n");
 
 
-
+			//MULTIPLICATION
 			First.printBigNum (First);
 			Console.Write (" * ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Multiplication(First,Second)));
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Multiplication(FirstMulti,SecondMulti)));
 			Console.Write ("\n");
 
 
-
+			//DIVISION
 			First.printBigNum (First);
 			Console.Write (" / ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Multiplication(First,Second)));
+			First.printBigNum(First.GetRidOfZeros(ReturnRep=First.Division(FirstDiv,SecondDiv)));
 			Console.Write ("\n");
 
 
-
+			//GREATER THAN
 			First.printBigNum (First);
 			Console.Write (" > ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			Boolean x=First.GreaterThan (First, Second);
+			Boolean x=First.GreaterThan (FirstGreater, SecondGreater);
 			Console.Write (x);
 			Console.Write ("\n");
 
-
+			//LESS THAN
 			First.printBigNum (First);
 			Console.Write (" < ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			x=First.LessThan (First, Second);
+			x=First.LessThan (FirstLesser, SecondLesser);
 			Console.Write (x);
 			Console.Write ("\n");
 
 
-
+			//GREATER THAN OR EQUAL
 			First.printBigNum (First);
 			Console.Write (" >= ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			x=First.GreaterThanOrEqualTo (First, Second);
+			x=First.GreaterThanOrEqualTo (FirstGreaterE, SecondGreaterE);
 			Console.Write (x);
 			Console.Write ("\n");
 
@@ -122,21 +150,21 @@ namespace BigNum
 
 		
 
-
+			//LESS THAN OR EQUAL
 			First.printBigNum (First);
 			Console.Write (" <= ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			x=First.LessThanOrEqualTo (First, Second);
+			x=First.LessThanOrEqualTo (FirstLesserE, SecondLesserE);
 			Console.Write (x);
 			Console.Write ("\n");
 
-
+			//EQUAL
 			First.printBigNum (First);
 			Console.Write (" == ");
 			First.printBigNum (Second);
 			Console.Write (" = ");
-			x=First.EqualTo (First, Second);
+			x=First.EqualTo (FirstE, SecondE);
 			Console.Write (x);
 			Console.Write ("\n");
 
@@ -165,7 +193,7 @@ namespace BigNum
 		public numberRep (string inputStream)
 		{//BEGINNING OF CONSTRUCTOR
 			if (inputStream [0] == '-') {
-				Console.WriteLine ("got here, it sees negatives");
+				//	Console.WriteLine ("got here, it sees negatives");
 				isNegative = true;
 			}
 			baseArray = new int[inputStream.Length];
@@ -700,15 +728,57 @@ namespace BigNum
 			return storage;*/
 		}
 
-		/*	public numberRep Division (numberRep x, numberRep y)
+		public numberRep Division (numberRep FirstNumberToDiv, numberRep SecondNumberToDiv)
 		{
+			numberRep PlaceHolder = new numberRep ();
+			int[] g=new int[1];
+			g [0] = 0;
+			int counter=0;
+			PlaceHolder.baseArray = g;
+			int FirstLength = FirstNumberToDiv.baseArray.Length;
+			int SecondLength =SecondNumberToDiv.baseArray.Length;
+			if (FirstLength < SecondLength) {//handles the case where x is of less length than y--RETURNS ZERO
+				return PlaceHolder;
 
+			}
+			if(SecondLength==1&&SecondNumberToDiv.baseArray[0]==0){//handles the case of division by zero--RETURNS ERROR
+				Console.Write (" Error, this is not actually zero, you tried to divied by zero ");
+				return PlaceHolder;
+
+			}	
+			if (FirstLength == SecondLength) {//same size in length
+				if (compareTo (FirstNumberToDiv, SecondNumberToDiv) == 0) {//same number
+					PlaceHolder.baseArray [0] = 1;
+					return PlaceHolder;
+				}
+				if (compareTo (FirstNumberToDiv, SecondNumberToDiv) == -1) {//y is bigger than x
+
+					return PlaceHolder;//initalized to zero, returns zero
+				}
+				if (compareTo (FirstNumberToDiv, SecondNumberToDiv) == 1) {//x is bigger than y
+
+					while (compareTo (FirstNumberToDiv, SecondNumberToDiv) == 1||compareTo (FirstNumberToDiv, SecondNumberToDiv) == 0) {//subtract till you have quotient
+						FirstNumberToDiv=Subtraction (FirstNumberToDiv, SecondNumberToDiv);
+						counter++;
+					}
+
+
+				}
+				PlaceHolder.baseArray [0] = counter;
+			}
+
+			if (FirstLength > SecondLength) {
+
+
+
+
+			}
 	
+			return PlaceHolder;
 
-
-		}*/
+		}
 		public numberRep GetRidOfZeros(numberRep x){
-			while(x.baseArray[0]==0&&x.baseArray.Length>1){
+			while(x.baseArray[0]==0&&x.baseArray.Length>1){//the last part of this is used to make sure that subtraction of 2 equal numbers is possible
 				int[] p = new int[x.baseArray.Length-1];
 				for (int k = 0; k < p.Length; k++) {
 					p [k] = x.baseArray [k + 1];
