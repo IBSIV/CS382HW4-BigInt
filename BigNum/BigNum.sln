@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigNum", "BigNum\BigNum.csproj", "{5E9D0E07-28FC-4978-A1F3-23B3F461095B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E9D0E07-28FC-4978-A1F3-23B3F461095B}.Debug|x86.ActiveCfg = Debug|x86
+		{5E9D0E07-28FC-4978-A1F3-23B3F461095B}.Debug|x86.Build.0 = Debug|x86
+		{5E9D0E07-28FC-4978-A1F3-23B3F461095B}.Release|x86.ActiveCfg = Release|x86
+		{5E9D0E07-28FC-4978-A1F3-23B3F461095B}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = BigNum\BigNum.csproj
+	EndGlobalSection
+EndGlobal
